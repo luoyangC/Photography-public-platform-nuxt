@@ -2,11 +2,13 @@
   <v-container>
     <v-layout row align-center justify-center>
       <v-flex xs12 sm10 md8 lg6 xl4>
-        <div class="activity-item" v-for="item in activityList" :key="item.id">
-          <activity-card :item="item"></activity-card>
-        </div>
+        <v-layout column class="activity-list">
+          <v-layout column v-for="item in activityList" :key="item.id" mb-3>
+            <activity-card :item="item"></activity-card>
+          </v-layout>
+        </v-layout>
       </v-flex>
-      <v-flex class="hidden-md-and-down" md4 lg3 xl2 align-self-start ref="monthPie">
+      <v-flex class="hidden-md-and-down" md4 lg3 xl2 align-self-start>
         <div class="operation">
           <operation-card></operation-card>
         </div>  
@@ -16,42 +18,30 @@
 </template>
 
 <script>
-import ActivityCard from '../components/common/activity-card'
-import OperationCard from '../components/inspire/operation-card'
-import { getActivity } from "../api"
+import ActivityCard from '@/components/common/ActivityCard'
+import OperationCard from '@/components/inspire/OperationCard'
 
 export default {
   components: {
     ActivityCard,
     OperationCard,
   },
+  async asyncData({ params, $axios }) {
+    let { data } = await $axios.get('/activity/')
+    return {
+      activityList: data.results
+    }
+  },
   data() {
     return {
       activityList: [],
       operationWidth: 0,
-    };
-  },
-  methods: {
-    delUser(index) {
-      getActivity()
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
     }
   },
-  async asyncData() {
-    let { data } = await getActivity();
-    return { activityList: data };
-  }
 };
 </script>
 
 <style lang="stylus" scoped>
-  .activity-item
-    margin-bottom 20px
   .operation
     position fixed
     margin-left 20px

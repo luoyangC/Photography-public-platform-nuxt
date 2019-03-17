@@ -1,6 +1,6 @@
-# photography-public-platform-nuxt
+# photography_nuxt
 
-> My flawless Nuxt.js project
+> My unreal Nuxt.js project
 
 ## Build Setup
 

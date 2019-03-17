@@ -12,13 +12,13 @@
               </v-card-title>
               <v-card-text>
                 <v-form>
-                  <v-text-field prepend-icon="person" name="login" label="Login" type="text"></v-text-field>
-                  <v-text-field prepend-icon="lock" name="password" label="Password" type="password"></v-text-field>
+                  <v-text-field prepend-icon="person" name="login" label="Login" type="text" v-model="username"></v-text-field>
+                  <v-text-field prepend-icon="lock" name="password" label="Password" type="password" v-model="password"></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions> 
                 <v-spacer></v-spacer>
-                <v-btn color="primary">Login</v-btn>
+                <v-btn color="primary" @click.stop="login">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-tab-item>
@@ -49,14 +49,23 @@
 </template>
 
 <script>
+import cookie from '@/utils/cookie'
+
 export default {
   data() {
     return {
-      active: 0
+      active: 0,
+      username: '',
+      password: '',
     }
-  }
+  },
+  methods: {
+    async login() {
+      let { data } = await this.$axios.post('/login/', {username:this.username, password:this.password})
+      cookie.setCookie('token', data.token, 7)
+      this.$store.dispatch("setUserInfo")
+      this.$router.go(-1)
+    },
+  },
 };
 </script>
-
-<style>
-</style>

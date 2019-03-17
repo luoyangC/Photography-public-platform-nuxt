@@ -1,13 +1,13 @@
 <template>
   <div>
     <v-card height="250">
-      <v-img class="white--text" height="250" style="filter: blur(15px)" src="http://127.0.0.1:8000/media/image/user/2018/11/976b496cb66d17cbfc8ab973f11351a2_2.jpg"/>
+      <v-img class="white--text" height="250" style="filter: blur(15px)" :src="$store.getters.user.avatar"/>
       <div class="image-before"></div>
       <v-layout class="user-detail" column justify-center align-content-center align-center>
         <v-avatar size="80" color="grey lighten-4">
-          <img src="http://127.0.0.1:8000/media/image/user/2018/11/976b496cb66d17cbfc8ab973f11351a2_2.jpg" alt="avatar">
+          <img :src="$store.getters.user.avatar" alt="avatar">
         </v-avatar>
-        <div class="user-nick-name">喵喵喵</div>
+        <div class="user-nick-name" v-text="$store.getters.user.name"></div>
       </v-layout>
     </v-card>
     <v-card style="margin-top:20px">
